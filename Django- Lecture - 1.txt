@@ -1,0 +1,39 @@
+Python:-
+---------------
+>> Python is a high level , object oriented and general purpose programming language. 
+>> Python was developed by 'Guido Van Rossum' in 1989.
+>> The first version of python was released in 1991.
+>> Python is a programming language by which we can develop different kind of application:-
+Types of Application:-
+-----------------------------
+There are two types of application in the market:-
+a) CUI. [Command User Interface.]
+	>> It rely on command.
+	>> User should know each and every command while interaction this type of application.
+For Example :- cmd , git. etc.
+b) GUI. [Graphical User Interface.]
+	a) Desktop Application. [Window Based Application.]  ==>>> Tkinter.
+>> An application that runs with help of O.S.
+For Example:- Office Package , Tally etc.
+Compatibility Issue:- application must be compatible with your software.
+	b) Web Application.  =>>>  Django / Flask.
+>> An application that runs with help of Web Browser.
+>> It can be access anywhere.
+>> It follows client-server architecture.
+	c) Mobile Application. / Andriod App.  =>> Kiwi.
+	d) ML. [Machine Learning.]
+	e) AI.
+	f) Data Analytics. and many more.
+----------------------------------------------------------------
+Django:-
+------------
+>> It is not a programming language , It is a framework i.e. used to build Web Application only.
+>> It follows MVT [Model , View , Template ] model.
+>> web application follows client - server architecture.
+----------------------------------------------------------------------
+
+
+
+
+
+

@@ -1,0 +1,125 @@
+Django:-
+-------------
+1. command to check python version.
+python --version
+2. command to check pip version.
+pip --version
+3. Command to check Django version.
+django-admin --version
+Install Django:-
+pip install Django
+----------------------------------------------
+How to work with Django Projects:-
+---------------------------------------------
+1. Project-1
+	-- python
+	-- numpy
+	-- Django
+	-- pandas
+2. Project-2
+	-- python
+	-- scipy
+	-- djangorestframework  + numpy + Django +  pandas
+3. Project-3
+	-- python
+	-- tensorflow
+	-- pillow
+	-- tkinter  + scipy + djangorestframework  + numpy +  Django +  pandas
+4. Project-4
+	-- After creating project create VE [Virtual environment.]
+VE -> It is nothing it is just like a folder you create after creating project with the help of this VE it make separation or isolation for your project. It protect to overcome 
+unnecessary libraries doesn't come into your project.
+-----------------------------------------------------------------------------
+Steps to create VE for your Django Project:-
+---------------------------------------------------
+1. Go to your drive -> D:/ Create one folder DjangoBatch_11_01_26 -> Inside It Create another folder -> MyAllProjects -> Inside it we put all our projects. -> Project-1.
+2. Create VE:-  win + R => cmd => Open Command Prompt.
+	pip instal virtualenv
+	and now check virtualenv version.
+	virtualenv --version
+Command to create VE:-
+	virtualenv anyFolderName
+	virtualenv venv [recommendation.]
+		venv -->> 
+			a) Python -> It is getting from Global Python Folder.
+			b) pip  ->> [Empty.]
+
+3. Activate your VE:-
+	virtualenvFoldername\scripts\activate
+	venv\scripts\activate
+4. Check your project to connect locally or Globally.
+	pip freeze
+5. you can also deactivate your VE if required.
+	deactivate.
+---------------------------------------------------------------------
+Command to create Project in Django:-
+--------------------------------------------
+django-admin startproject ProjectName
+---------------------------------------------
+IDE:-
+----------
+a) PyCharm.
+b) Vs Code.  =>>>  Light Weight.
+c) SubLime text etc.
+-------------------------------------------------
+Now open this project in VS Code.
+---------------------------------------------
+Connect your Terminal in VS code with CMD:-
+----------------------------------------------
+View -> Command Palette [Ctrl + Shift + P ]-> 
+Terminal:SelectDefaultProfile -> and click ->> CMD.
+--------------------------------------------------------------------
+Now Run Django Development Server:-
+----------------------------------------------
+Command to run DDS:-
+-------------------------------
+python manage.py runserver =>> http://127.0.0.1:8000
+-------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,373 @@
+a) How to send client data to the server machine.
+<form>
+</form>
+sum -> http:127.0.0.1:8000/sum
+sub -> http:127.0.0.1:8000/sub
+mult -> http:127.0.0.1:8000/mult
+div -> http:127.0.0.1:8000/div
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+]
+path("urlMapping/anyname",Viewname/FunctionName)
+from django.contrib import admin
+from django.urls import path
+from django.http import HttpResponse
+
+def sum(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Sum..."+str(a+b)+"</h1>") 
+
+def sub(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Sub..."+str(a-b)+"</h1>") 
+
+def mult(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Mult..."+str(a*b)+"</h1>") 
+
+def div(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Div..."+str(a/b)+"</h1>") 
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('sum/<int:a>/<int:b>/',sum), #http:127.0.0.1:8000/sum
+    path('sub/<int:a>/<int:b>/',sub), #http:127.0.0.1:8000/sub
+    path('mult/<int:a>/<int:b>/',mult), #http:127.0.0.1:8000/mult
+    path('div/<int:a>/<int:b>/',div), #http:127.0.0.1:8000/div
+]
+------------------------------------------------------------------
+b) How to response server data to the client machine.
+c) Maintain the communication between client and server.
+--------------------------------------------------------------------
+View:- A view is special function , that always accept httprequest and return httpResponse.
+-------------
+Template:-
+-------------------
+>> it is a collection of html , css and js.
+>> it is used to create static pages.
+---------------------------------------------------------
+How to create templates:-
+1. create new folder name as 'templates'. -> Now inside it you can Create N number of html files.
+----------------------------------------------
+Now How to run template in Django:-
+----------------------------------------
+from django.shortcuts import render
+Syntax:-
+render(request,'filename.html')
+------------------------------------------
+How to solve this error:
+TemplateDoesNotExist at /
+calc.html
+Go to settings.py:-
+--------------------------
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': ['templates'],  # Write your Folder Name here..
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+--------------------------------------------
+Note: when you make <form method="get">
+then it create URL-Rewriting or  Query String.
+[ http://127.0.0.1:8000/?t1=3&t2=4 ]
+-------------------------------------------------------
+b) How to transfer server data to the client machine.
+Note: we have context attribute to send server data to the client machine.
+Whatever data you are going to send to the client machine make all its dictionary.
+   d1={'a':a,'b':b}
+and then pass this dictionary into context attributes.
+return render(request,'calc.html',context=d1)
+Now use this key into your html file as following:-
+{{  -> Open Variable.
+}}  -> Close Variable.
+Syntax:-
+{{ key_name/VariableName }}
+{{a}} ,  {{b}}
+-----------------------------------------------------------------------
+GET - Dictionary:-
+------------------------
+"""
+URL configuration for CetpaLive_Project110126 project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/6.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path
+from django.http import HttpResponse
+from django.shortcuts import render
+
+def sum(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Sum..."+str(a+b)+"</h1>") 
+
+def sub(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Sub..."+str(a-b)+"</h1>") 
+
+def mult(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Mult..."+str(a*b)+"</h1>") 
+
+def div(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Div..."+str(a/b)+"</h1>") 
+
+def view_calcuator(request):
+    a=int(request.GET.get('t1',0))
+    b=int(request.GET.get('t2',0))
+    c=a+b
+    #print('a=',a,'b=',b)
+    d1={'a':a,'b':b,'res':c}
+    return render(request,'calc.html',context=d1)
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('sum/<int:a>/<int:b>/',sum), #http:127.0.0.1:8000/sum
+    path('sub/<int:a>/<int:b>/',sub), #http:127.0.0.1:8000/sub
+    path('mult/<int:a>/<int:b>/',mult), #http:127.0.0.1:8000/mult
+    path('div/<int:a>/<int:b>/',div), #http:127.0.0.1:8000/div
+    path('',view_calcuator), #http:127.0.0.1:8000/calc
+]
+-------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<body bgcolor="yellow">
+    <form method="get">
+    <h1>My Calculator Program</h1>
+    Enter First Number:
+    <input type="text" name="t1" value="{{a}}"/> <br/>
+    Enter Second Number:
+    <input type="text" name="t2" value="{{b}}"/> <br/>
+    <button type="submit">SUM</button>
+    <h2> Result :  {{res}} </h2>
+</form>    
+</body>
+</html>
+------------------------------------------
+POST - Dictionary:-
+-------------------------
+Note: when you send request using post then you will get below error:-
+
+Forbidden (403)
+CSRF verification failed. Request aborted.
+You are seeing this message because this site requires a CSRF cookie when submitting forms. This cookie is required for security reasons, to ensure that your browser is not being hijacked by third parties.
+If you have configured your browser to disable cookies, please re-enable them, at least for this site, or for “same-origin” requests.
+Note:- To solve this error we use above inside html page this keyword:-
+	{% csrf_token %}
+CSRF => Cross Site Request Forgery.
+>> It prevent that no attacker or intruder doesn't allow to hit your page from other source.
+>> It make your pages more secure and reliable.
+---------------------------------------------------------
+"""
+URL configuration for CetpaLive_Project110126 project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/6.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path
+from django.http import HttpResponse
+from django.shortcuts import render
+
+def sum(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Sum..."+str(a+b)+"</h1>") 
+
+def sub(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Sub..."+str(a-b)+"</h1>") 
+
+def mult(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Mult..."+str(a*b)+"</h1>") 
+
+def div(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Div..."+str(a/b)+"</h1>") 
+
+def view_calcuator(request):
+    a=int(request.POST.get('t1',0))
+    b=int(request.POST.get('t2',0))
+    c=a+b
+    #print('a=',a,'b=',b)
+    d1={'a':a,'b':b,'res':c}
+    return render(request,'calc.html',context=d1)
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('sum/<int:a>/<int:b>/',sum), #http:127.0.0.1:8000/sum
+    path('sub/<int:a>/<int:b>/',sub), #http:127.0.0.1:8000/sub
+    path('mult/<int:a>/<int:b>/',mult), #http:127.0.0.1:8000/mult
+    path('div/<int:a>/<int:b>/',div), #http:127.0.0.1:8000/div
+    path('',view_calcuator), #http:127.0.0.1:8000/calc
+]
+----------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+    {% csrf_token %}
+    <h1>My Calculator Program</h1>
+    Enter First Number:
+    <input type="text" name="t1" value="{{a}}"/> <br/>
+    Enter Second Number:
+    <input type="text" name="t2" value="{{b}}"/> <br/>
+    <button type="submit">SUM</button>
+    <h2> Result :  {{res}} </h2>
+</form>    
+</body>
+</html>
+---------------------------------------------------------------------
+Calculator program Code:-
+--------------------------------
+"""
+URL configuration for CetpaLive_Project110126 project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/6.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path
+from django.http import HttpResponse
+from django.shortcuts import render
+
+def sum(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Sum..."+str(a+b)+"</h1>") 
+
+def sub(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Sub..."+str(a-b)+"</h1>") 
+
+def mult(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Mult..."+str(a*b)+"</h1>") 
+
+def div(request,a,b):
+    return HttpResponse("<h1>Hello ! I am calling Div..."+str(a/b)+"</h1>") 
+
+def view_calcuator(request):
+    a=int(request.POST.get('t1',0))
+    b=int(request.POST.get('t2',0))
+    if request.method=='GET':
+        return render(request,'calc.html')
+    elif request.method=='POST':
+        if 'btnsum' in request.POST:
+            c=a+b
+        if 'btnsub' in request.POST:
+            c=a-b
+        if 'btnmult' in request.POST:
+            c=a*b
+        if 'btndiv' in request.POST:
+            c=a/b
+        d1={'a':a,'b':b,'res':c}
+        return render(request,'calc.html',context=d1)
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('sum/<int:a>/<int:b>/',sum), #http:127.0.0.1:8000/sum
+    path('sub/<int:a>/<int:b>/',sub), #http:127.0.0.1:8000/sub
+    path('mult/<int:a>/<int:b>/',mult), #http:127.0.0.1:8000/mult
+    path('div/<int:a>/<int:b>/',div), #http:127.0.0.1:8000/div
+    path('',view_calcuator), #http:127.0.0.1:8000/calc
+]
+-------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+    {% csrf_token %}
+    <h1>My Calculator Program</h1>
+    Enter First Number:
+    <input type="text" name="t1" value="{{a}}"/> <br/>
+    Enter Second Number:
+    <input type="text" name="t2" value="{{b}}"/> <br/>
+    <button type="submit" name="btnsum">SUM</button>
+    <button type="submit" name="btnsub">SUB</button>
+    <button type="submit" name="btnmult">MULT</button>
+    <button type="submit" name="btndiv">DIV</button>
+    <h2> Result :  {{res}} </h2>
+</form>    
+</body>
+</html>
+------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

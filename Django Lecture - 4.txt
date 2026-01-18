@@ -1,0 +1,146 @@
+How to create an app in Django:-
+----------------------------------------
+>> In project we have multiple app's.
+>> In provide modularity of your project.
+>> Easy to test ,  maintain and debug.
+----------------------------------------------------
+Command to create an app in Django:-
+------------------------------------------
+you need to follow the following three steps:-
+a) create an app.
+python manage.py startapp appName
+b) Register your app.
+GO to settings.py
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'CMS', # Register your app.
+]
+c) URL Mapping. [Connect your Project with your app.]
+Project - [ URLS.py ]
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('sum/<int:a>/<int:b>/',sum), #http:127.0.0.1:8000/sum
+    path('sub/<int:a>/<int:b>/',sub), #http:127.0.0.1:8000/sub
+    path('mult/<int:a>/<int:b>/',mult), #http:127.0.0.1:8000/mult
+    path('div/<int:a>/<int:b>/',div), #http:127.0.0.1:8000/div
+    path('',view_calcuator), #http:127.0.0.1:8000/calc
+    path('cmsapp/',include('CMS.urls')), #http://127.0.0.1:8000/cmsapp/
+]
++  
+Note:- When you create a new app then you will not get urls.py file automatically, then you need to create urls.py file inside your app.
+CMS  =>>>>>  URLS.py
+
+from django.urls import path
+from .views import *
+#Base URL =>>> #http://127.0.0.1:8000/cmsapp/ 
+
+urlpatterns=[
+    path('home/',view_home), 
+    path('about/',view_about),
+    path('show/',view_showAll),
+]
+-----------------------------------------------------------------
+How to create an template inside app:-
+--------------------------------------------
+a) Create new folder name as 'templates' inside your app.
+b) Create new folder name as your appName 'CMS' name inside templates folder -> Now you can create N number of html files.
+-------------------------------------------------------------
+Assignment Task:-
+-----------------------
+create a calculator app and then perform all operations.
+----------------------------------------------------------------------
+from django.shortcuts import render
+from django.http import HttpResponse
+
+# Create your views here.
+
+def view_home(request):
+    return render(request,'CMS/home.html')
+    #return HttpResponse("<h1>This is my Home Page...</h1>")
+
+def view_about(request):
+    return render(request,'CMS/about.html')
+    #return HttpResponse("<h1>This is my About Page...</h1>")
+
+def view_showAll(request):
+    return render(request,'CMS/showall.html')
+    #return HttpResponse("<h1>This is my Show ALL Customer Page...</h1>")
+-------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body bgcolor="pink">
+    <h1>Customer Home Page</h1>
+</body>
+</html>
+----------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABOUT</title>
+</head>
+<body bgcolor="yellow">
+    <h1>Customer About Page</h1>
+</body>
+</html>
+--------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHOW ALL</title>
+</head>
+<body bgcolor="powderblue">
+    <h1>Customer Show All Page</h1>
+</body>
+</html>
+--------------------------------------
+from django.urls import path
+from .views import *
+#Base URL =>>> #http://127.0.0.1:8000/cmsapp/ 
+
+urlpatterns=[
+    path('home/',view_home), 
+    path('about/',view_about),
+    path('show/',view_showAll),
+]
+-----------------------------------------------------------
+# Application definition
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'CMS', # Register your app.
+]
+-------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+

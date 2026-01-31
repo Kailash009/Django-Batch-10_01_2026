@@ -1,0 +1,159 @@
+DTL in Django:-
+-----------------------
+>> DTL stands for Django Template Language.
+>> It works at server side.
+>> It is used to make your html pages dynamically. [loop , if etc.]
+-----------------------------------------------------------------------
+Comparison between Python and DTL:-
+----------------------------------------------------
+Python 					DTL
+-----------------------------------------------------
+a) In python we use		a) In DTL we also have concept of variables.
+the concept of variable.
+b) In python we have concept	b) In DTL we don't have any concept of Data Type.
+of Data type.
+c) In python we have concept    c) In DTL there is only one Operators.
+of Operators.        			[Boolean Operator]	
+					== operator
+					!= operator
+					< operator
+					> operator
+					<= operator
+					>= operator
+					in operator
+					not in operator
+					is operator
+					is not operator	
+d) In python we have concept	d) In DTL there is also concept of Conditional Statement.
+of Conditional Statements.		if ,  if-else , if-elif-else etc.
+e) In python we have loop	e) In DTL there is only one Loop.
+concept.				i.e  [ for-in ].
+f) In python we have concept	f) In DTL instead of using Function we have concept of
+of Functions.				'Tags' and 'Filters'.
+========================================================================================
+Template Tag in DTL :-
+---------------------------------
+>> Outputs one of the syntax characters used to compose template tags.
+>> The template system has no concept of “escaping” individual characters. However, you can use the {% templatetag %} tag to display one of the template tag character combinations.
+openblock  {%
+closeblock  %}
+openvariable  {{
+closevariable   }}
+openbrace     {
+closebrace    }
+opencomment  {#
+closecomment  #}
+---------------
+Variables in DTL:-
+----------------------
+def view_dtl(request):
+    d1={'a':100}
+    return render(request,'CMS/dtl.html',context=d1)
+-----------------------------
+<body bgcolor="yellow">
+    <h1>Example of DTL - [ DJANGO TEMPLATE LANGUAGE ] </h1>
+    {{a}}
+</body>
+--------------------------
+def view_dtl(request):
+    a=100
+    b=400
+    d1={'a':a,'b':b,'sum':a+b}
+    return render(request,'CMS/dtl.html',context=d1)
+----------------------------
+<body bgcolor="yellow">
+    <h1>Example of DTL - [ DJANGO TEMPLATE LANGUAGE ] </h1>
+    {{a}} + {{b}} = {{sum}}
+</body>
+------------------------------------
+Conditional Statement in DTL:-
+------------------------------------
+If-else:-
+---------------
+{% if condition %}
+statement1
+{% else %}
+statement2
+{% endif %}
+------------------------------------------------
+wap to check number is equal to 100 or not.
+def view_dtl(request):
+    d1={'a':500}
+    return render(request,'CMS/dtl.html',context=d1)
+-------
+<h1>Example of DTL - [ DJANGO TEMPLATE LANGUAGE ] </h1>
+     {% if a == 100 %}
+     <h2>{{a}} is equal to 100</h2>
+     {% else %}
+     <h2>{{a}} is not equal to 100</h2>
+     {% endif %}
+--------
+wap to find the greatest in two number.
+-------------
+If-elif-else:-
+------------------
+{% if condition1 %}
+statement1
+{% elif condition2 %}
+statement2
+{% elif condition3 %}
+statement3
+{% elif condition4 %}
+statement4
+{% elif condition5 %}
+statement5
+{% else %}
+statement6
+{% endif %}
+-------------------------------------------
+wap to find the greatest in three number.
+-----------------------------------------------
+Assignment Task:-
+------------------------
+>> All the variable , conditional statements and operator in python all must be implement in 
+Django DTL concept.
+----------------------------------------------------------
+Loop in DTL:-  Pending
+----------------------------
+>> In DTL only support for-in loop.
+Syntax:-
+--------------------
+{% for variablename in Collection %}
+Statements
+{% endfor %}
+-----------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

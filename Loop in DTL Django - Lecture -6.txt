@@ -1,0 +1,173 @@
+Loop in DTL:- 
+----------------------------
+>> In DTL only support for-in loop.
+Syntax:-
+--------------------
+{% for variablename in Collection %}
+Statements
+{% endfor %}
+-----------------------------------------------------
+wap to show dummy customer record.
+---------------------------------------------
+from django.shortcuts import render
+from django.http import HttpResponse
+
+# Create your views here.
+
+def view_home(request):
+    return render(request,'CMS/home.html')
+    #return HttpResponse("<h1>This is my Home Page...</h1>")
+
+def view_about(request):
+    return render(request,'CMS/about.html')
+    #return HttpResponse("<h1>This is my About Page...</h1>")
+
+def view_showAll(request):
+    return render(request,'CMS/showall.html')
+    #return HttpResponse("<h1>This is my Show ALL Customer Page...</h1>")
+
+class Customer:
+    def __init__(self):
+        self.cid=0
+        self.name=''
+        self.age=0
+        self.mobileno=''
+        self.city=''
+def getCustomer(N):
+    cusList=[]
+    for i in range(1,N+1):
+        cus=Customer()
+        cus.cid=100 +i
+        cus.name='Nikhil'+str(i)
+        cus.age=21+i
+        cus.mobileno='979879911'+str(i)
+        cus.city='Noida'+str(i)
+        cusList.append(cus)
+    return cusList
+
+def view_dtl(request):
+    cno=int(request.POST.get('txtNo',0))
+    customers=getCustomer(cno)
+    d1={'customers':customers}
+    return render(request,'CMS/dtl.html',context=d1)
+--------------------------------------------------------
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTL</title>
+</head>
+<body bgcolor="yellow">
+    <form method="post">
+        {%csrf_token%}
+    <h1>Example of DTL - [ DJANGO TEMPLATE LANGUAGE ] </h1>
+    <h3>Show Dummy Customer</h3>
+    Enter No. of Customer :
+    <input type="text" name="txtNo"/>
+    <button type="submit">Show Customer</button>
+    <br/> <br/> <br/>
+    <table bgcolor="pink" width="50%" border="3">
+        <tr>
+            <th>CID</th>
+            <th>CNAME</th>
+            <th>AGE</th>
+            <th>MOBILE NO</th>
+            <th>CITY</th>
+        </tr>
+        {% for cus in customers %}
+        <tr>
+            <td>{{cus.cid}}</td>
+            <td>{{cus.name}}</td>
+            <td>{{cus.age}}</td>
+            <td>{{cus.mobileno}}</td>
+            <td>{{cus.city}}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <th style="background-color: red;color: aqua;" colspan="5"><h2>No Customer Found!! </h2></th>
+        </tr>
+        {% endfor %}
+    </table>
+    </form>
+</body>
+</html>
+-----------------------------------------------------------
+Models:-
+---------------
+>> Models are the special classes i.e. used to create tables and perform database related operations.
+Note: In models we have 'Fields' is the parent class in which we can define all our fields like - IntegerField() , BooleanField() etc.
+-------------------------------------------------------
+class Course:
+    def __init__(self):
+        self.name=''
+    def __str__(self):
+        return self.name
+
+c1=Course()
+c1.name='Python'
+print(c1)
+--------------------------------
+from django.db import models
+
+# Create your models here.
+
+class Customer(models.Model): # Model Class
+    #cid=models.IntegerField() It will create automatically.
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=15)
+    post=models.CharField(max_length=50)
+    salary=models.DecimalField(max_digits=25,decimal_places=2)
+    def __str__(self):
+        return self.name
+
+Table ->> AppName_ClassName
+	  CMS_Customer =>> Table
+	Column -> name , age, mobileno, post , salary
+Total Table -> 12 Table
+	11 table -> Built-in apps
+	1 table -> user defined app [CMS]
+-------------------------------------------------------------------
+How to install DbBrowser Software =>> https://sqlitebrowser.org/dl/
+	DB Browser for SQLite - Standard installer for 64-bit Windows
+-------------------------------------------------------------------------
+Procedure to Map your model with your database:-
+----------------------------------------------------------------
+Note: Django support ORM [Object Relational Mapping] concept.
+It has two command:-
+a) python manage.py makemigrations
+>> This command see your model class and generate ORM queries.
+b) python manage.py migrate.
+>> This command see your ORM Queries and generate tables.
+--------------------------------------------------------------------
+Assignment Task:-
+--------------------------
+>> Make all your loop python program in DTL.
+-------------------------------------------------
+from django.db import models
+
+# Create your models here.
+
+class Customer(models.Model): # Model Class
+    #cid=models.IntegerField() It will create automatically.
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=15)
+    post=models.CharField(max_length=50)
+    salary=models.DecimalField(max_digits=25,decimal_places=2)
+    def __str__(self):
+        return self.name
+---------------------------------------------
+
+
+
+
+
+
+
+
+
+
+

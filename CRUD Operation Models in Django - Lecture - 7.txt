@@ -1,0 +1,264 @@
+from django.db import models
+
+# Create your models here.
+
+class Customer(models.Model): # Model Class
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=15)
+    post=models.CharField(max_length=50)
+    salary=models.DecimalField(max_digits=25,decimal_places=2)
+    def __str__(self):
+        return self.name
+-----------------------------------------------
+How to insert record into it.
+------------------------------------
+cus=Customer()
+cus.name='nikhil'
+cus.age=23
+cus.mobileno='8979879811'
+cus.post='SE'
+cus.salary=34233.23
+cus.save()  # Save record into database.
+--------------------------------------------------------
+For Testing purpose we use shell:-
+----------------------------------------
+python manage.py shell
+-----------------------------------
+How to update this record:-
+cus.name='Nikhil rana'
+cus.save() # Save also used to update the record.
+------------------------------------------------------
+waq to get the customer whose id is 2.
+select * from customer where id=2
+-------------------------------------------
+ORM:-
+----------
+cus=Customer.objects.get(id=2)
+---------------------------------
+(InteractiveConsole)
+>>> cus=Customer.objects.get(id=2)
+>>> cus.name
+'sachit'
+>>> cus.age
+24
+>>> cus.mobileno
+'8979791'
+>>> cus.post
+'TL'
+>>> cus.salary
+Decimal('8383844.24')
+-------------------------------------
+Show All customer record:
+select * from customer
+--------------------------------
+ORM:-
+Customer.objects.all()
+-----------------------------
+from django.shortcuts import render
+from django.http import HttpResponse
+from CMS.models import Customer
+
+# Create your views here.
+
+def view_home(request):
+    return render(request,'CMS/home.html')
+    #return HttpResponse("<h1>This is my Home Page...</h1>")
+
+def view_about(request):
+    return render(request,'CMS/about.html')
+    #return HttpResponse("<h1>This is my About Page...</h1>")
+
+def view_showAll(request):
+    return render(request,'CMS/showall.html')
+    #return HttpResponse("<h1>This is my Show ALL Customer Page...</h1>")
+
+# class Customer:
+#     def __init__(self):
+#         self.cid=0
+#         self.name=''
+#         self.age=0
+#         self.mobileno=''
+#         self.city=''
+# def getCustomer(N):
+#     cusList=[]
+#     for i in range(1,N+1):
+#         cus=Customer()
+#         cus.cid=100 +i
+#         cus.name='Nikhil'+str(i)
+#         cus.age=21+i
+#         cus.mobileno='979879911'+str(i)
+#         cus.city='Noida'+str(i)
+#         cusList.append(cus)
+#     return cusList
+
+# def view_dtl(request):
+#     cno=int(request.POST.get('txtNo',0))
+#     customers=getCustomer(cno)
+#     d1={'customers':customers}
+#     return render(request,'CMS/dtl.html',context=d1)
+
+def view_customer_information(request):
+    if request.method=='GET':
+        return render(request,'CMS/customer.html')
+    elif request.method=='POST':
+        if 'btnInsert' in request.POST:
+            cus=Customer()
+            cus.name=request.POST.get('txtName','NA')
+            cus.age=request.POST.get('txtAge','NA')
+            cus.mobileno=request.POST.get('txtMob','NA')
+            cus.post=request.POST.get('txtPost','NA')
+            cus.salary=request.POST.get('txtSalary','NA')
+            cus.save() 
+            return HttpResponse("<h1>Record Inserted!!</h1>")
+        elif 'btnSingle' in request.POST:
+            cid=int(request.POST.get('txtCid',0))
+            cus=Customer.objects.get(id=cid)
+            d1={'cus':cus}
+            return render(request,'CMS/customer.html',context=d1)
+        elif 'btnUpdate' in request.POST:
+            cus=Customer()
+            cus.id=int(request.POST.get('txtCid',0))
+            if Customer.objects.filter(id=cus.id).exists():
+                cus.name=request.POST.get('txtName','NA')
+                cus.age=request.POST.get('txtAge','NA')
+                cus.mobileno=request.POST.get('txtMob','NA')
+                cus.post=request.POST.get('txtPost','NA')
+                cus.salary=request.POST.get('txtSalary','NA')
+                cus.save() 
+                return HttpResponse("<h1>Record Updated!!</h1>")
+        elif 'btnDelete' in request.POST:
+            cus=Customer()
+            cus.id=int(request.POST.get('txtCid',0))
+            Customer.objects.filter(id=cus.id).delete()
+            return HttpResponse("<h1>Record Deleted!!</h1>")
+        elif 'btnShowAll' in request.POST:
+            cusall=Customer.objects.all()
+            d1={'customers':cusall}
+            return render(request,'CMS/customer.html',context=d1)
+--------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS</title>
+</head>
+<body style="background-color:chartreuse;">
+    <form method="post">
+        {% csrf_token %}
+    <h1 align="center"> *** CUSTOMER MANAGEMENT SYSTEM *** </h1>
+<table border="3" align="center" style="background-color: deepskyblue;" width="50%">
+    <tr>
+        <td>CID:</td>
+        <td><input type="text" name="txtCid" value="{{cus.id}}"/> </td>
+    </tr>
+    
+    <tr>
+        <td>Name:</td>
+        <td><input type="text" name="txtName" value="{{cus.name}}"/> </td>
+    </tr>
+
+    <tr>
+        <td>Age:</td>
+        <td><input type="text" name="txtAge" value="{{cus.age}}"/> </td>
+    </tr>
+
+    <tr>
+        <td>Mobile Number:</td>
+        <td><input type="text" name="txtMob" value="{{cus.mobileno}}"/> </td>
+    </tr>
+
+    <tr>
+        <td>Post:</td>
+        <td><input type="text" name="txtPost" value="{{cus.post}}"/> </td>
+    </tr>
+
+    <tr>
+        <td>Salary:</td>
+        <td><input type="text" name="txtSalary" value="{{cus.salary}}"/> </td>
+    </tr>
+
+    <tr>
+        <td> <button type="submit" name="btnInsert">Insert </button>  </td>
+        <td> <button type="submit" name="btnSingle"> Show Single </button>  </td>
+        <td> <button type="submit" name="btnUpdate"> Udpate </button>  </td>
+        <td> <button type="submit" name="btnDelete"> Delete </button>  </td>
+        <td> <button type="submit" name="btnShowAll"> Show All </button>  </td>
+    </tr>
+</table>
+<h2 align="center"> Show ALL Customer </h2>
+<table border="3" align="center" style="background-color:bisque;" width="50%">
+<tr>
+    <th>S.No.</th>
+    <th>Name</th>
+    <th>Age</th>
+    <th>Mobile Number</th>
+    <th>Post</th>
+    <th>Salary</th>
+</tr>
+{% for cus in customers %}
+<tr>
+    <td>{{forloop.counter}}</td>
+    <td>{{cus.name}}</td>
+    <td>{{cus.age}}</td>
+    <td>{{cus.mobileno}}</td>
+    <td>{{cus.post}}</td>
+    <td>{{cus.salary}}</td>
+</tr>
+{% endfor %}
+</table>
+</form>
+</body>
+</html>
+-------------------------------------
+from django.db import models
+
+# Create your models here.
+
+class Customer(models.Model): # Model Class
+    #cid=models.IntegerField() It will create automatically.
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=15)
+    post=models.CharField(max_length=50)
+    salary=models.DecimalField(max_digits=25,decimal_places=2)
+    def __str__(self):
+        return self.name
+------------------------------------------
+from django.urls import path
+from .views import *
+#Base URL =>>> #http://127.0.0.1:8000/cmsapp/ 
+
+urlpatterns=[
+    path('home/',view_home), 
+    path('about/',view_about),
+    path('show/',view_showAll),
+    # path('dtl/',view_dtl),
+    path('customer/',view_customer_information),
+]
+-------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

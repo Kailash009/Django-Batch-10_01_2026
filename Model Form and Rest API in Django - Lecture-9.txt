@@ -1,0 +1,265 @@
+ModelForm:-
+-----------------
+>> In model form no need to write html code.
+>> Html code dynamically generated in model form.
+--------------------------------------------------------
+Model =>> ModelForm.
+----------------------------------
+Steps to create Model Form:-
+----------------------------------
+1. Right click on your app -> create new file name as forms.py
+2. from django import forms
+from SMS.models import Student
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model=Student
+        fields=['name','age','mobileno']
+-----------------------------------------------------------
+Rest API in Django:-
+---------------------------
+API:-
+-----------
+>> It stands for 'Application Programming Interface.'
+>> API is neither a programming language nor a framework , It is concept by which we can communicate across platforms.
+>> API generally return JSON format.
+------------------------------------------------
+REST:-
+-----------
+>> It stands for 'Representational State Transfer.'
+>> It is communication protocol under which our api will run.
+--------------------------------------------------------------
+JSON:-
+----------
+>> It stands for Java Script Object Notation.
+Syntax:-
+--------------------
+{
+"name":"ravi",
+"age":23,
+"mobileno":"89892921"
+}  =>> JSON Format
+---------------------------------
+In api you need to learn the following three things:-
+a) How to create an API.
+b) Testing an API.  [ POSTMAN , Fiddler etc..]
+c) How to consume an API.
+	a) JS.
+	b) Python.
+	c) jQuery.
+	d) React etc.
+---------------------------------------------
+C -> Create   -> POST
+R -> Read     ->   GET
+U -> Update   -> PUT
+D -> Delete   -> DELETE
+--------------------------------
+How to Consume an API using Python:-
+----------------------------------------
+Note: To consume an API in python you need to install one 'requests' package.
+pip install requests
+-------------------------------
+import requests
+resp=requests.get(url='http://127.0.0.1:8000/apidemo/first/')
+print(resp.json())
+print(resp.text)
+print(resp.content)
+------------------------------
+Note:-
+------------
+>> In response() constructor all primitive data type like int, bool ,float , string , tuple,
+dictionary , list directly converted into JSON format , but complex type or Model can't be directly converted into JSON format.
+------------------------------------------------------------------
+WAP to create an API that show student by passing ID.
+-----------------------------------------------------------
+You got this error while passing Model as an object into Response (). it can't converted directly JSON format.
+------------------------------------------------------
+TypeError at /apidemo/student/1/
+Object of type Student is not JSON serializable
+---------------------------------------------------------
+Note: To solve above problem we need to create serializer in Django.
+with the help of serializer your model class converted into JSON Format.
+----------------------------------------------------------------------------
+import requests
+while(True):
+    try:
+        sid=int(input('Enter Student ID:'))
+        resp=requests.get(url='http://127.0.0.1:8000/apidemo/student/{0}/'.format(sid))
+        stu_dict=resp.json().items()
+        for stu in stu_dict:
+            print(stu[0],'=',stu[1])
+    except:
+        print('Record Not Found!!')
+----------------------------------------------
+from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from SMS.models import Student
+from .serializer import StudentSerializer
+# Create your views here.
+
+#@api_view(http_method_names=['GET'])
+@api_view(['GET','POST'])
+def view_my_firstAPI(request):
+    mymsg='This is my first API Code...'
+    mymsg=123
+    mymsg=23.4355
+    mymsg=[12,'Hello',True,89.34]
+    mymsg=(12,'Hello',True,89.34)
+    mymsg={1:'Java','hel':24,True:"Good"}
+    mymsg=3+4j
+    return Response(data=mymsg)
+
+@api_view(['GET'])
+def view_showStudent(request,sid):
+    stu=Student.objects.get(id=sid)
+    stu_serialzer=StudentSerializer(stu)
+    return Response(data=stu_serialzer.data)
+---------------------------------------------------------------
+from rest_framework import serializers
+from SMS.models import Student
+
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Student
+        fields=['name','age','mobileno']
+-------------------------------------------
+from django.urls import path
+from .views import *
+#BASE URL =>>>  #http://127.0.0.1:8000/apidemo/
+
+urlpatterns=[
+path('first/',view_my_firstAPI),
+path('student/<int:sid>/',view_showStudent)
+]
+-------------------------
+def view_studentForm(request):
+    if request.method=='GET':
+        frm_unbound=StudentForm()
+        d1={'forms':frm_unbound}
+        return render(request,'SMS/stufrm.html',context=d1)
+    elif request.method=='POST':
+        frm_bound=StudentForm(request.POST,files=request.FILES)
+        if frm_bound.is_valid():
+            frm_bound.save()
+            return HttpResponse("<h1>Record Save SuccessFully!!</h1>")
+        else:
+            frm_bound=StudentForm()
+            d1={'forms':frm_bound}
+            return render(request,'SMS/stufrm.html',context=d1)
+-----------------------
+from django import forms
+from SMS.models import Student
+
+class StudentForm(forms.ModelForm):
+    class Meta:
+        model=Student
+        fields='__all__'     #['name','age','mobileno']
+
+-------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STUDENT FORM</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+    <h1>****STUDENT FORM***</h1>
+    {{forms}}
+    <button type="submit">Save</button>
+    </form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

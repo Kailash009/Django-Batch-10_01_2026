@@ -1,0 +1,235 @@
+State Management in Django:-
+--------------------------------
+>> Web Application use http Protocol. [https://www.amazon.in/]
+>> http is a stateless protocol.
+>> It doesn't maintain the communication between client and server.
+>> Then we use the concept of state Management.
+-------------------------------------------------------
+There are two types of state Management:-
+a) Client Side SM.
+	i) Cookies.
+b) Server Side SM.
+	i) Session.
+----------------------------------------------
+Server Side SM:-
+---------------------
+Session:-
+--------------
+>> It is a server side SM technique.
+>> Session value can be access throughout the whole application.
+>> It can store any type of data.
+>> The default time of session is 20 Min.
+Syntax:-
+----------------
+request.session.get('key','value')
+--------------------------------------------
+wap to count total no. of visitor.
+--------------------------------------------
+from django.shortcuts import render
+
+# Create your views here.
+
+def visitor_count(request):
+    count=request.session.get('count','NA')
+    if count=='NA':
+        count=1
+    else:
+        count=count+1
+    request.session['count']=count  # SET Session Value.
+    d1={'count':count}
+    return render(request,'statemgtdemo/count.html',context=d1)
+------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visitor Count</title>
+</head>
+<body>
+   <h2> Total Visitor Count =>> {{count}}   </h2>
+</body> 
+</html>
+---------------
+from django.urls import path
+from .views import *
+
+#BASE URL =>>  http://127.0.0.1:8000/statedemo/
+
+
+urlpatterns=[
+path('count/',visitor_count),
+]
+---------------------------------------------------
+a) Client Side SM.
+	i) Cookies.
+----------------------------
+Cookies:-
+---------------
+>> It is a small piece of information that can be stored into client machine. [Web Browser]
+>> It store only string data.
+>> It store upto 4k. [depend upon browser to browser.]
+>> The default time of cookie is 30 Min.
+-----------------------------------------------------------
+Types of Cookie:-
+-------------------------
+There are two types of cookie:-
+a) Non-Persistent.
+>> It store your cookie information on a temporarily basis.
+>> As soon as when you close your browser window or turn off your PC the cookie information automatically gets deleted from the Web Browser.
+b) Persistent.
+>> It store your cookie information on a Permanent basis.
+>> As soon as when you close your browser window or turn off your PC the cookie information doesn't deleted from the Web Browser.
+>> In this cookie you have to set the expiration time according to the application need.
+----------------------------------------------------
+Cookie:-
+-------------
+a) How to write cookie.
+Syntax:-
+--------------
+set_cookie(key='keyname',value='value')
+-------------------------------------------
+b) How to read cookie.
+Syntax:-
+-------------
+request.COOKIES.get('keyName')
+---------------------------------------
+def view_write_Cookie(request):
+    if request.method=='GET':
+        return render(request,'statemgtdemo/write.html')
+    elif request.method=='POST':
+        uname=request.POST.get('txtName','NA')
+        resp=render(request,'statemgtdemo/write.html')
+        resp.set_cookie(key='name',value=uname,max_age=60*60*365*24) # Persistent Cookie
+        return resp
+
+def view_read_Cookie(request):
+    if request.method=='GET':
+        return render(request,'statemgtdemo/read.html')
+    elif request.method=='POST':
+        username=request.COOKIES.get('name','NA')
+        if username=='NA':
+            d1={'data':'Cookies Not Found!!'}
+        else:
+            d1={'data':username}
+        return render(request,'statemgtdemo/read.html',context=d1)
+        
+-------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WRITE</title>
+</head>
+<body>
+    <h1>***WRITE COOKIES****</h1>
+    <form method="post">
+        {% csrf_token %}
+    Enter your Name:
+    <input type="text" name="txtName"/>
+    <button type="submit">Write Cookie</button>
+</form>
+</body>
+</html>
+---------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>READ</title>
+</head>
+<body>
+    <h1>***READ COOKIES****</h1>
+    <form method="post">
+        {% csrf_token %}
+    Read your Name:
+    <input type="text" name="txtName" value="{{data}}"/>
+    <button type="submit">Read Cookie</button>
+</form>
+</body>
+</html>
+--------
+from django.urls import path
+from .views import *
+
+#BASE URL =>>  http://127.0.0.1:8000/statedemo/
+
+
+urlpatterns=[
+path('count/',visitor_count),
+path('write/',view_write_Cookie),
+path('read/',view_read_Cookie),
+]
+--------------------
+Django Admin Customization:-
+---------------------------------
+>> In Django you can easily perform CRUD operations.
+>> you can add your model in admin panel.
+-----------------------------------------------------------
+>> First create a superUser.
+python manage.py createsuperuser
+-----------------------------------------
+Note: if is_Staff=0 then user can't login through Admin Panel.
+--------------------------------------------------------------------
+Pending Topics:-
+--------------------
+a) Django Signal.
+b) Project Development.
+--------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

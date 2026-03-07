@@ -1,0 +1,93 @@
+a) Django Signal:-
+--------------------------
+>> It works at Model.
+>> Other programming language it is known as trigger.
+>> Signal is a database related operation that automatically fired when an event 
+has occurred.
+>> Database Event:- create, drop , insert , update , delete etc.
+-------------
+For Example:-
+Student.
+PersonalDetail.
+>> As soon as when you insert record into student model then in PD Model automatically record has been inserted.
+PersonalDetail -> I don't want to insert record manually.
+------------------------------------------------------------------
+class Student(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=20)
+
+class PersonalDetail(models.Model):
+    address=models.CharField(max_length=100,null=True,blank=True)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    student=models.OneToOneField(Student,null=True,blank=True,on_delete=models.CASCADE)
+
+stu=Student()
+stu.name='sanchit'
+stu.age=23
+stu.mobileno='7979791111'
+stu.save()
+pd=PersonalDetail() =>> I don't want to write this line Manually.
+pd.address='xyz'
+pd.dob='12/03/2023'
+pd.student=stu
+pd.save()
+
+
+def insert_record_after_student_save(sender,instance,created,**kwargs):
+    print('POST SAVE SIGNAL RECEIVED...')
+    print('Sender=',sender)
+    print('Instance=',instance)
+    print('CREATED=',created)
+
+sender => ModelClass  [<class 'demosignal.models.Student'>]
+instance => Object of Model Class.  [Student object (1)]
+created => True/False
+True => When new record inserted.
+False => When update existing record.
+----------------------------------------------
+from demosignal.models import *
+>>> s1=Student()
+>>> s1.name='arvind'
+>>> s1.age=34
+>>> s1.mobileno='78987979791'
+>>> s1.save()
+--------------------------------------------------------
+from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+# Create your models here.
+
+class Student(models.Model):
+    name=models.CharField(max_length=50)
+    age=models.IntegerField()
+    mobileno=models.CharField(max_length=20)
+
+class PersonalDetail(models.Model):
+    address=models.CharField(max_length=100,null=True,blank=True)
+    dob=models.DateField(null=True,blank=True)
+    pic=models.ImageField(null=True,blank=True)
+    student=models.OneToOneField(Student,null=True,blank=True,on_delete=models.CASCADE)
+
+
+@receiver(sender=Student,signal=post_save)
+def insert_record_after_student_save(sender,instance,created,**kwargs):
+    if created:
+        p1=PersonalDetail()
+        p1.student=instance
+        p1.save()
+    # print('POST SAVE SIGNAL RECEIVED...')
+    # print('Sender=',sender)
+    # print('Instance=',instance)
+    # print('CREATED=',created)
+----------------------------------------------------------
+b) Project Development:-
+----------------------------------
+Dynamic Template Configuration in Django:-
+------------------------------------------------------
+Template Inheritance in Django:-
+----------------------------------
+"{% static 'medinova/'%}"
+-----------------------------------
+

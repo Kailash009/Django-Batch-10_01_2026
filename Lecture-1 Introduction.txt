@@ -1,0 +1,142 @@
+Python:-
+-------------
+>> Python is a high level ,object oriented , dynamic type , programming language.
+>> Python was developed 'Guido Van Rossum. in 1989.'
+>> The first version of python was released in 1991.
+----------------------------------------------------------------------------
+With the help of python we can develop different kind of application:- 
+Types of Application in the market:-
+a) CUI. [Command User Interface].
+	Console Based Application.  --- CMD., GIT.. etc.
+>> In which we need to write each and every command.
+b) GUI. [Graphical User Interface].
+		i) Window Based Application. [Desktop Application]. ->> [ Tkinter. ]
+>> An application that runs with the help of O.S.
+		ii) Web Based Application. ->> Django , Flask.
+>> An application the runs with the help of Web Browser.
+>> It follow client - server architecture.
+>> It can be access by anywhere.
+		iii) Android Application.   -> Kiwi.
+		iv) Data Analytics.
+		v) Machine Learning.
+		vi) AI.  and many more.
+-----------------------------------------------------------------
+Django:-
+-------------
+>> It is not a programming language , It is a framework in which you can develop Web Application only.
+>> It support MVT architecture.
+Model. -> DAL (Data Access Layer.) -> In it , we perform all database related Operations.
+View. -> BLL (Business Logic Layer.)
+>> In it , we write main logic of our program.
+>> It is the heart of Django , it interact both model and template.
+Template. -> PLL (Presentation Logic Layer.)
+>> It is the UI [User Interface] of our program. (html , css , js etc.)
+-------------------------------------------------------------------------
+How to check python version:-
+python --version
+How to check django version:-
+django-admin --version
+How to check pip version:-
+pip --version
+---------------------------------------------------------
+How to install Django:-
+-------------------------------
+pip install django
+----------------------------
+How to work in Django project:-
+------------------------------------------
+a) Project-1
+-------------
+	- python
+	- panda
+	- Django
+b) Project-2	
+----------------	
+	- python
+	- numpy
+	- pillow
+	- tkinter  + panda + Django
+c) Project-3
+---------------------
+	- djangorestframework
+	- tensorflow
+	- matplotlib    + python + panda + Django + numpy + pillow + tkinter
+
+d) Project -4 
+------------------------
+	i ) Create VE -> VE provide isolation for your project. [Unnecessary packages / libraries doesn't automatically in your project.]
+	ii) VirtualEnv is nothing it is just like a Folder.
+		venv ->>> Foldername (you can give any name.)
+			a) Python
+			b) pip -->> (Empty) It is getting from Global python folder.	
+------------------------------------
+How to install VE:-
+-------------------------
+a) Go to D:// and make one folder -> DjangoBatch12PM -> MyAllProjects -> Project-1.
+b) Install VE.
+	i) Install VE. [pip install virtualenv]
+		and also check version .  virtualenv --version
+c) Now Create VE.
+	virtualenv anyfoldername
+	virtualenv venv
+d) Check your project install locally or globally - 	
+	pip freeze
+e) Activate VE:-
+	venv\scripts\activate
+f) deactivate -> you can connect or disconnect your project also.
+------------------------------------------------------------------------
+How to create Project in Django:-
+--------------------------------------
+Command to create Project in Django:-  Pending
+-----------------------------------------------------
+django-admin startproject ProjectName
+-----------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
